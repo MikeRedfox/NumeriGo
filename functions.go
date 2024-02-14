@@ -46,7 +46,7 @@ func Simpson[T int | int8 | int16 | int32 | int64 | float32 | float64](f func(fl
 	h := float64((b - a)) / float64(m)
 	I = f(float64(a)) + f(float64(b))
 
-	for i := 1; i <= m-1; i += 2 {
+	for i := 1; i < m-1; i += 2 {
 		x := float64(a) + float64(i)*h
 		I = I + 4*f(x)
 	}
