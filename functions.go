@@ -27,3 +27,34 @@ func PuntoFisso[T int | int8 | int16 | int32 | int64 | float32 | float64](x0, to
 	return xs[n-1], nil
 
 }
+
+func IsEven[T int | int16 | int32 | int64](n T) bool {
+	if n%2 == 0 {
+		return true
+	}
+	return false
+}
+
+func Simpson[T int | int8 | int16 | int32 | int64 | float32 | float64](f func(float64) float64, a, b T, m int) float64 {
+	if !IsEven(m) {
+		m++
+	}
+
+	var I float64
+
+	h := float64((b - a)) / float64(m)
+	I = f(float64(a)) + f(float64(b))
+
+	for i := 1; i <= m-1; i += 2 {
+		x := float64(a) + float64(i)*h
+		I = I + 4*f(x)
+	}
+
+	for i := 2; i < m-2; i += 2 {
+		x := float64(a) + float64(i)*h
+		I = I + 4*f(x)
+	}
+	I = float64(h) * float64(I) / float64(3)
+	return I
+
+}
