@@ -5,6 +5,37 @@ import (
 	"math"
 )
 
+func Bisezione[T int | int8 | int16 | int32 | int64 | float32 | float64](a, b, toll T, f func(T) T) (T, error) {
+
+	if f(a)*f(b) > 0 {
+		return 0, errors.New("f(a) * f(b) must be negative!")
+	}
+
+	if a > b {
+		a, b = b, a
+	}
+
+	err := b - a
+	var m T
+	for err > toll {
+		m = (a + b) / 2
+		fm := f(m)
+		fa := f(a)
+		fb := f(b)
+
+		if fa*fm > 0 {
+			a = m
+		}
+
+		if fm*fb > 0 {
+			b = m
+		}
+		err = b - a
+	}
+	return m, nil
+
+}
+
 func PuntoFisso[T int | int8 | int16 | int32 | int64 | float32 | float64](x0, toll T, f func(T) T, nmax int) (T, error) {
 
 	var diff T = 1.0
